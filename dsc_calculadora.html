@@ -323,8 +323,12 @@ function validateGate(){
   return ok;
 }
 
-const SHEETS_URL='https://script.google.com/macros/s/AKfycbwSnyRotqyWm0LKB71Nl73cCyt3DWlTG24XNkhhIB4BWl9EeJgI-PQ1-GfTPhpnfbaUzA/exec';
-function calcularDiagnostico(){
+const CALCULADORA_URL='https://comercial-grupo-dsc-production.up.railway.app/webhook/calculadora';
+function calcularDiagnostico(fetch(CALCULADORA_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    }).catch(function(){});){
   if(!validateGate())return;
   const btn=document.getElementById('btnCalcular');
   const original=btn.innerHTML;
