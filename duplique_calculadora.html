@@ -323,7 +323,7 @@ function validateGate(){
   return ok;
 }
 
-const SHEETS_URL='https://script.google.com/macros/s/AKfycbwSnyRotqyWm0LKB71Nl73cCyt3DWlTG24XNkhhIB4BWl9EeJgI-PQ1-GfTPhpnfbaUzA/exec';
+const SHEETS_URL='const CALCULADORA_URL='https://comercial-grupo-dsc-production.up.railway.app/webhook/calculadora';';
 function calcularDiagnostico(){
   if(!validateGate())return;
   const btn=document.getElementById('btnCalcular');
@@ -345,7 +345,11 @@ function calcularDiagnostico(){
       valorFinal:document.getElementById('rv-final')?document.getElementById('rv-final').textContent:''
     };
     FACTORS.forEach(function(f){payload[f.key]=f.options[f.sel].label;});
-    fetch(SHEETS_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)}).catch(function(){});
+    fetch(CALCULADORA_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    }).catch(function(){});
     const box=document.getElementById('resultBox');
     box.classList.remove('hidden');
     box.scrollIntoView({behavior:'smooth',block:'start'});
