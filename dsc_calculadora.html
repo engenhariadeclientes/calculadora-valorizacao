@@ -29,6 +29,9 @@ select,input[type=text],input[type=email]{border-radius:6px;padding:8px 10px;fon
 .gate-sub{font-size:13px;font-weight:500;margin-bottom:1.25rem;line-height:1.5}
 .btn-gate{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;border:none;letter-spacing:.02em;transition:opacity .15s}
 .btn-gate:hover{opacity:.88}
+.btn-gate:disabled{cursor:not-allowed;opacity:.75}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.25);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
 .factors-stack{display:flex;flex-direction:column;gap:6px;margin-bottom:.75rem}
 .frow{display:grid;grid-template-columns:28px 1fr auto;align-items:start;gap:10px;border-radius:8px;padding:.65rem .9rem;transition:border-color .15s,background .15s}
 .ficon{font-size:18px;text-align:center;padding-top:2px}
@@ -111,7 +114,7 @@ select:focus,input:focus{border-color:#F5A800;box-shadow:0 0 0 3px #F5A80033}
 <div class="card">
   <div class="section-label" style="margin-bottom:.8rem">Dados do imóvel</div>
   <div class="row">
-    <label>Valor de referência</label>
+    <label>Valor atual do imóvel</label>
     <input type="text" id="baseVal" value="R$ 500.000" style="width:170px" />
   </div>
   <div class="row">
@@ -125,7 +128,7 @@ select:focus,input:focus{border-color:#F5A800;box-shadow:0 0 0 3px #F5A80033}
     </select>
   </div>
   <div class="row">
-    <label>Horizonte</label>
+    <label>Quero saber quanto meu imóvel valerá em:</label>
     <select id="horizonte" onchange="render()">
       <option value="1">1 ano</option>
       <option value="3" selected>3 anos</option>
@@ -184,7 +187,7 @@ select:focus,input:focus{border-color:#F5A800;box-shadow:0 0 0 3px #F5A80033}
 <div class="section-label">Situação atual de cada fator</div>
 <div class="factors-stack" id="factorsStack"></div>
 
-<button class="btn-gate" style="margin-bottom:.75rem" onclick="calcularDiagnostico()">Calcular meu diagnóstico de valorização →</button>
+<button class="btn-gate" id="btnCalcular" style="margin-bottom:.75rem" onclick="calcularDiagnostico()">Calcular meu diagnóstico de valorização →</button>
 
 <div class="result-box hidden" id="resultBox">
   <div class="res-grid">
@@ -323,23 +326,32 @@ function validateGate(){
 const SHEETS_URL='https://script.google.com/macros/s/AKfycbz5BFc3Nq-BklrYI20bRYWQzdaiMmYU7dNaA4_zJoF56aHN0Ov1J7Uyhgzk6NZAUfBInw/exec';
 function calcularDiagnostico(){
   if(!validateGate())return;
-  render();
-  const payload={
-    nome:document.getElementById('f-nome').value,
-    whatsapp:document.getElementById('f-whatsapp').value,
-    email:document.getElementById('f-email').value,
-    cidade:document.getElementById('f-cidade').value,
-    uf:document.getElementById('f-uf').value,
-    cargo:document.getElementById('f-cargo').value,
-    marca:'DSC Condominial',
-    valorBase:document.getElementById('baseVal').value,
-    impacto:document.getElementById('rv-pct')?document.getElementById('rv-pct').textContent:'',
-    valorFinal:document.getElementById('rv-final')?document.getElementById('rv-final').textContent:''
-  };
-  fetch(SHEETS_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)}).catch(function(){});
-  const box=document.getElementById('resultBox');
-  box.classList.remove('hidden');
-  box.scrollIntoView({behavior:'smooth',block:'start'});
+  const btn=document.getElementById('btnCalcular');
+  const original=btn.innerHTML;
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span>Calculando...';
+  setTimeout(function(){
+    render();
+    const payload={
+      nome:document.getElementById('f-nome').value,
+      whatsapp:document.getElementById('f-whatsapp').value,
+      email:document.getElementById('f-email').value,
+      cidade:document.getElementById('f-cidade').value,
+      uf:document.getElementById('f-uf').value,
+      cargo:document.getElementById('f-cargo').value,
+      marca:'DSC Condominial',
+      valorBase:document.getElementById('baseVal').value,
+      impacto:document.getElementById('rv-pct')?document.getElementById('rv-pct').textContent:'',
+      valorFinal:document.getElementById('rv-final')?document.getElementById('rv-final').textContent:''
+    };
+    FACTORS.forEach(function(f){payload[f.key]=f.options[f.sel].label;});
+    fetch(SHEETS_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)}).catch(function(){});
+    const box=document.getElementById('resultBox');
+    box.classList.remove('hidden');
+    box.scrollIntoView({behavior:'smooth',block:'start'});
+    btn.disabled=false;
+    btn.innerHTML=original;
+  },3000);
 }
 
 buildFactors();
