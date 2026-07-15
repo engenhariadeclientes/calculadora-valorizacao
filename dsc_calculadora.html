@@ -105,67 +105,8 @@ select:focus,input:focus{border-color:#F5A800;box-shadow:0 0 0 3px #F5A80033}
 
 <div class="container">
 
-<!-- GATE -->
-<div id="gateSection">
-  <div class="gate">
-    <div class="gate-title">Antes de ver seu diagnóstico...</div>
-    <div class="gate-sub">Informe seus dados para receber o resultado completo e um especialista entrar em contato.</div>
-
-    <div class="form-grid">
-      <div class="field full">
-        <label>Nome completo *</label>
-        <input type="text" id="f-nome" placeholder="Seu nome" />
-        <div class="err" id="err-f-nome">Campo obrigatório</div>
-      </div>
-      <div class="field">
-        <label>WhatsApp *</label>
-        <input type="text" id="f-whatsapp" placeholder="(00) 00000-0000" />
-        <div class="err" id="err-f-whatsapp">Campo obrigatório</div>
-      </div>
-      <div class="field">
-        <label>E-mail *</label>
-        <input type="email" id="f-email" placeholder="seu@email.com" />
-        <div class="err" id="err-f-email">Campo obrigatório</div>
-      </div>
-      <div class="field">
-        <label>Cidade do condomínio *</label>
-        <input type="text" id="f-cidade" placeholder="Ex: Florianópolis" />
-        <div class="err" id="err-f-cidade">Campo obrigatório</div>
-      </div>
-      <div class="field">
-        <label>Estado (UF) *</label>
-        <select id="f-uf">
-          <option value="">Selecione</option>
-          <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
-          <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
-          <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
-          <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
-          <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
-          <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
-          <option>SP</option><option>SE</option><option>TO</option>
-        </select>
-        <div class="err" id="err-f-uf">Campo obrigatório</div>
-      </div>
-      <div class="field full">
-        <label>Você é *</label>
-        <select id="f-cargo">
-          <option value="">Selecione sua posição</option>
-          <option>Síndico Profissional</option>
-          <option>Síndico Orgânico</option>
-          <option>Administradora de Condomínio</option>
-          <option>Morador de Condomínio</option>
-          <option>Outros</option>
-        </select>
-        <div class="err" id="err-f-cargo">Campo obrigatório</div>
-      </div>
-    </div>
-
-    <button class="btn-gate" onclick="submitGate()">Ver meu diagnóstico de valorização →</button>
-  </div>
-</div>
-
 <!-- CALCULADORA -->
-<div id="calcSection" class="hidden">
+<div id="calcSection">
 
 <div class="card">
   <div class="section-label" style="margin-bottom:.8rem">Dados do imóvel</div>
@@ -192,12 +133,60 @@ select:focus,input:focus{border-color:#F5A800;box-shadow:0 0 0 3px #F5A80033}
       <option value="10">10 anos</option>
     </select>
   </div>
+  <div class="row">
+    <label>Nome completo *</label>
+    <input type="text" id="f-nome" placeholder="Seu nome" style="flex:1;min-width:160px" />
+  </div>
+  <div class="err" id="err-f-nome">Campo obrigatório</div>
+  <div class="row">
+    <label>WhatsApp *</label>
+    <input type="text" id="f-whatsapp" placeholder="(00) 00000-0000" style="flex:1;min-width:160px" />
+  </div>
+  <div class="err" id="err-f-whatsapp">Campo obrigatório</div>
+  <div class="row">
+    <label>E-mail *</label>
+    <input type="email" id="f-email" placeholder="seu@email.com" style="flex:1;min-width:160px" />
+  </div>
+  <div class="err" id="err-f-email">Campo obrigatório</div>
+  <div class="row">
+    <label>Cidade do condomínio *</label>
+    <input type="text" id="f-cidade" placeholder="Ex: Florianópolis" style="flex:1;min-width:160px" />
+  </div>
+  <div class="err" id="err-f-cidade">Campo obrigatório</div>
+  <div class="row">
+    <label>Estado (UF) *</label>
+    <select id="f-uf" style="flex:1;min-width:160px">
+      <option value="">Selecione</option>
+      <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+      <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+      <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+      <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+      <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+      <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+      <option>SP</option><option>SE</option><option>TO</option>
+    </select>
+  </div>
+  <div class="err" id="err-f-uf">Campo obrigatório</div>
+  <div class="row">
+    <label>Você é *</label>
+    <select id="f-cargo" style="flex:1;min-width:160px">
+      <option value="">Selecione sua posição</option>
+      <option>Síndico Profissional</option>
+      <option>Síndico Orgânico</option>
+      <option>Administradora de Condomínio</option>
+      <option>Morador de Condomínio</option>
+      <option>Outros</option>
+    </select>
+  </div>
+  <div class="err" id="err-f-cargo">Campo obrigatório</div>
 </div>
 
 <div class="section-label">Situação atual de cada fator</div>
 <div class="factors-stack" id="factorsStack"></div>
 
-<div class="result-box">
+<button class="btn-gate" style="margin-bottom:.75rem" onclick="calcularDiagnostico()">Calcular meu diagnóstico de valorização →</button>
+
+<div class="result-box hidden" id="resultBox">
   <div class="res-grid">
     <div class="res-metric"><div class="res-label">Valor hoje</div><div class="res-val" id="rv-base">R$ 500 mil</div></div>
     <div class="res-metric"><div class="res-label">Impacto total</div><div class="res-val green" id="rv-pct">+0%</div></div>
@@ -332,8 +321,9 @@ function validateGate(){
 }
 
 const SHEETS_URL='https://script.google.com/macros/s/AKfycbz5BFc3Nq-BklrYI20bRYWQzdaiMmYU7dNaA4_zJoF56aHN0Ov1J7Uyhgzk6NZAUfBInw/exec';
-function submitGate(){
+function calcularDiagnostico(){
   if(!validateGate())return;
+  render();
   const payload={
     nome:document.getElementById('f-nome').value,
     whatsapp:document.getElementById('f-whatsapp').value,
@@ -347,12 +337,13 @@ function submitGate(){
     valorFinal:document.getElementById('rv-final')?document.getElementById('rv-final').textContent:''
   };
   fetch(SHEETS_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)}).catch(function(){});
-  document.getElementById('gateSection').classList.add('hidden');
-  document.getElementById('calcSection').classList.remove('hidden');
-  render();
+  const box=document.getElementById('resultBox');
+  box.classList.remove('hidden');
+  box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 buildFactors();
+render();
 
 </script>
 </body>
