@@ -187,11 +187,7 @@ select:focus,input:focus{border-color:#F5A800;box-shadow:0 0 0 3px #F5A80033}
 <div class="section-label">Situação atual de cada fator</div>
 <div class="factors-stack" id="factorsStack"></div>
 
-<button class="btn-gate" id="btnCalcular" style="margin-bottom:.75rem" onclick="calcularDiagnostico(fetch(CALCULADORA_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    }).catch(function(){});)">Calcular meu diagnóstico de valorização →</button>
+<button class="btn-gate" id="btnCalcular" style="margin-bottom:.75rem" onclick="calcularDiagnostico()">Calcular meu diagnóstico de valorização →</button>
 
 <div class="result-box hidden" id="resultBox">
   <div class="res-grid">
@@ -327,12 +323,8 @@ function validateGate(){
   return ok;
 }
 
-const CALCULADORA_URL='https://comercial-grupo-dsc-production.up.railway.app/webhook/calculadora';
-function calcularDiagnostico(fetch(CALCULADORA_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    }).catch(function(){});){
+const SHEETS_URL='https://script.google.com/macros/s/AKfycbz5BFc3Nq-BklrYI20bRYWQzdaiMmYU7dNaA4_zJoF56aHN0Ov1J7Uyhgzk6NZAUfBInw/exec';
+function calcularDiagnostico(){
   if(!validateGate())return;
   const btn=document.getElementById('btnCalcular');
   const original=btn.innerHTML;
